@@ -1,0 +1,272 @@
+// ==========================================
+// 1. DICTIONARY & MESSAGES (EN, FR, AR)
+// ==========================================
+const translations = {
+    en: {
+        activeConnections: "Active Connections:",
+        bypassedToday: "Bypassed Databases Today:",
+        welcomeMsg: "Welcome to InstaTools Pro. Enter the username of the target Instagram account you want to monitor and view below.",
+        targetLinked: "Target profile linked successfully: @{user}. Select the secure data layer you want to extract from this user dashboard:",
+        fetchingData: "Fetching cloud databank for {feature}. Establishing anonymous stream:",
+        placeholder: "Enter target Instagram username...",
+        
+        // 6 Options
+        opt1: "View Friends List",
+        opt2: "Private Stories",
+        opt3: "Chat History",
+        opt4: "Live Location Map",
+        opt5: "Recent Activity",
+        opt6: "Typing View", // Option 6
+        
+        // Modals
+        howToTitle: "How to Use InstaTools",
+        verifyTitle: "Human Verification Required",
+        verifyDesc: "The secure proxy tunnel linked successfully. To protect server resources from automated bots, you must complete the human verification below. Important: You must complete the selected offer on the next page exactly as requested to instantly reveal your live decrypted dashboard logs and images.",
+        passVerifyBtn: "Pass Verification",
+        gotItBtn: "OK, Got It!"
+    },
+    fr: {
+        activeConnections: "Connexions Actives:",
+        bypassedToday: "Bases de Données Contournées:",
+        welcomeMsg: "Bienvenue sur InstaTools Pro. Entrez le nom d'utilisateur du compte Instagram cible que vous souhaitez surveiller ci-dessous.",
+        targetLinked: "Profil cible lié avec succès: @{user}. Sélectionnez la couche de données sécurisée à extraire:",
+        fetchingData: "Récupération de la banque de données cloud pour {feature}. Établissement du flux anonyme:",
+        placeholder: "Entrez le nom d'utilisateur Instagram...",
+        
+        opt1: "Voir la liste d'amis",
+        opt2: "Stories Privées",
+        opt3: "Historique des Discussions",
+        opt4: "Carte de Localisation en Direct",
+        opt5: "Activité Récente",
+        opt6: "Affichage de Saisie (Typing View)",
+        
+        howToTitle: "Comment utiliser InstaTools",
+        verifyTitle: "Vérification Humaine Requise",
+        verifyDesc: "Le tunnel proxy sécurisé s'est connecté avec succès. Pour protéger les ressources du serveur contre les robots automatisés, vous devez effectuer la vérification humaine ci-dessous.",
+        passVerifyBtn: "Passer la vérification",
+        gotItBtn: "D'accord, J'ai compris!"
+    },
+    ar: {
+        activeConnections: "الاتصالات النشطة:",
+        bypassedToday: "قواعد البيانات المتجاوزة اليوم:",
+        welcomeMsg: "مرحبًا بك في InstaTools Pro. أدخل اسم المستخدم لحساب إنستغرام المستهدف الذي تريد مراقبته وعرضه أدناه.",
+        targetLinked: "تم ربط الملف الشخصي المستهدف بنجاح: @{user}. حدد طبقة البيانات الآمنة التي تريد استخراجها:",
+        fetchingData: "جاري جلب بنك البيانات السحابية لـ {feature}. إنشاء بث مجهول:",
+        placeholder: "أدخل اسم مستخدم إنستغرام...",
+        
+        opt1: "عرض قائمة الأصدقاء",
+        opt2: "القصص الخاصة (Private Stories)",
+        opt3: "سجل المحادثات (Chat History)",
+        opt4: "خريطة الموقع المباشر",
+        opt5: "النشاط الأخير",
+        opt6: "عرض الكتابة المباشرة (Typing View)",
+        
+        howToTitle: "كيفية استخدام InstaTools",
+        verifyTitle: "التأكيد البشري مطلوب",
+        verifyDesc: "تم ربط نفق الوكيل الآمن بنجاح. لحماية موارد الخادم من الروبوتات الآلية، يجب عليك إكمال التحقق البشري أدناه.",
+        passVerifyBtn: "إكمال التحقق",
+        gotItBtn: "حسناً، فهمت!"
+    }
+};
+
+let currentLang = 'en';
+let currentTargetUser = '';
+
+// ==========================================
+// 2. LIVE ONLINE COUNTER (28,377 Fluctuation)
+// ==========================================
+let activeUsers = 28377;
+
+function startLiveCounter() {
+    const counterElement = document.getElementById('onlineCounter');
+    if (!counterElement) return;
+
+    setInterval(() => {
+        // Change by a random value between -4 and +6 every second
+        const variation = Math.floor(Math.random() * 11) - 4;
+        activeUsers += variation;
+        counterElement.innerText = activeUsers.toLocaleString();
+    }, 1000);
+}
+
+// ==========================================
+// 3. TYPING & WORD-BY-WORD STREAMING ENGINE
+// ==========================================
+/**
+ * @param {string} containerId - ID of the container element
+ * @param {string} fullText - The full message text to display
+ * @param {function} callback - Function to run when typing finishes
+ */
+async function streamMessageWithTyping(containerId, fullText, callback = null) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // STEP 1: Display 3 Animated Typing Dots for 1 second (1000ms)
+    container.innerHTML = `
+        <div class="typing-indicator-box">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    `;
+
+    // Wait 1000ms (1 second)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // STEP 2: Clear typing dots and stream text word by word
+    container.innerHTML = "";
+    const words = fullText.split(" ");
+    
+    for (let i = 0; i < words.length; i++) {
+        const wordSpan = document.createElement("span");
+        wordSpan.innerText = words[i] + (i === words.length - 1 ? "" : " ");
+        wordSpan.style.opacity = "0";
+        wordSpan.style.transition = "opacity 0.15s ease-in";
+        
+        container.appendChild(wordSpan);
+        
+        // Trigger fade-in
+        setTimeout(() => {
+            wordSpan.style.opacity = "1";
+        }, 10);
+
+        // Delay between words (110ms per word)
+        await new Promise(resolve => setTimeout(resolve, 110));
+    }
+
+    if (callback) callback();
+}
+
+// ==========================================
+// 4. USER ACTIONS & CONSOLE WORKFLOW
+// ==========================================
+
+// Handle Username Submission
+function handleUsernameSubmit() {
+    const inputField = document.getElementById('targetUsername');
+    const username = inputField.value.trim();
+
+    if (!username) {
+        alert("Please enter a valid Instagram username!");
+        return;
+    }
+
+    currentTargetUser = username;
+    const responseText = translations[currentLang].targetLinked.replace('{user}', username);
+
+    // Trigger Typing + Word-by-Word output
+    streamMessageWithTyping('consoleOutputText', responseText, () => {
+        // Show the 6 feature options panel after message completes
+        const featuresPanel = document.getElementById('featuresPanel');
+        if (featuresPanel) {
+            featuresPanel.classList.remove('hidden');
+        }
+    });
+}
+
+// Handle Option Selection (1 of 6 Choices)
+function handleFeatureSelect(featureKey, featureName) {
+    const responseText = translations[currentLang].fetchingData.replace('{feature}', featureName);
+
+    // Trigger Typing + Word-by-Word output
+    streamMessageWithTyping('consoleOutputText', responseText, () => {
+        // Open Human Verification Modal after 800ms delay
+        setTimeout(() => {
+            showModal('verificationModal');
+        }, 800);
+    });
+}
+
+// ==========================================
+// 5. LANGUAGE & THEME TOGGLES
+// ==========================================
+
+// Switch Language (EN / FR / AR)
+function setLanguage(lang) {
+    if (!translations[lang]) return;
+    currentLang = lang;
+
+    // Toggle RTL direction for Arabic
+    if (lang === 'ar') {
+        document.documentElement.dir = 'rtl';
+        document.body.classList.add('rtl-mode');
+    } else {
+        document.documentElement.dir = 'ltr';
+        document.body.classList.remove('rtl-mode');
+    }
+
+    // Update static texts
+    document.getElementById('lblActiveConn').innerText = translations[lang].activeConnections;
+    document.getElementById('lblBypassed').innerText = translations[lang].bypassedToday;
+    document.getElementById('targetUsername').placeholder = translations[lang].placeholder;
+    
+    // Update language button text
+    document.getElementById('currentLangBtn').innerHTML = `<i class="fa-solid fa-globe"></i> ${lang.toUpperCase()}`;
+    
+    // Hide language dropdown
+    document.getElementById('langDropdown').classList.add('hidden');
+}
+
+// Dark / Light Theme Toggle
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const themeIcon = document.querySelector('#themeToggleBtn i');
+    if (themeIcon) {
+        if (document.body.classList.contains('light-theme')) {
+            themeIcon.className = 'fa-solid fa-sun';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+        }
+    }
+}
+
+// Hamburger Menu Toggle (Redirects to Meta)
+function toggleMetaMenu() {
+    const menu = document.getElementById('metaMenuDropdown');
+    menu.classList.toggle('active');
+}
+
+// Open link in Meta Official Site
+function goToMetaSite(url = "https://www.meta.com") {
+    window.open(url, '_blank');
+}
+
+// Modal Helpers
+function showModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// ==========================================
+// 6. INITIALIZATION ON PAGE LOAD
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Start Live Counter
+    startLiveCounter();
+
+    // Show Initial Welcome Message with Typing Effect
+    const initialWelcome = translations[currentLang].welcomeMsg;
+    streamMessageWithTyping('consoleOutputText', initialWelcome);
+
+    // Event Listeners
+    document.getElementById('menuToggleBtn').addEventListener('click', toggleMetaMenu);
+    document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+    
+    // Language options event listeners
+    document.querySelectorAll('.lang-opt').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            const lang = e.target.getAttribute('data-lang');
+            setLanguage(lang);
+        });
+    });
+
+    // Close menus when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#menuToggleBtn') && !e.target.closest('#metaMenuDropdown')) {
+            document.getElementById('metaMenuDropdown').classList.remove('active');
+        }
+    });
+});
